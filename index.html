@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>(`・ω・´)</title>
-    <script src="anime.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="./iconfont.css">
+    <script src="./assets/anime.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./assets/iconfont.css">
     <style>
     body {
         margin: 0;
@@ -59,9 +59,9 @@
     <div class="volume">
         <i class="iconfont icon-volumeup"></i>
     </div>
-    <img src="main.gif" alt="">
+    <img src="./assets/main.gif" alt="">
     <audio autoplay="autoplay" loop="loop" id="bg-music">
-        <source src="bg.mp3">
+        <source src="./assets/bg.mp3">
     </audio>
     <h1>ヽ(ｏ`皿′ｏ)ﾉ</h1>
     <h2>Happy Birthday!</h2>
@@ -140,6 +140,8 @@
             default:
 
         }
+
+        // fireworks
         window.human = false;
 
         var canvasEl = document.querySelector('.fireworks');
@@ -272,6 +274,7 @@
             anime({ duration: 200 }).finished.then(autoClick);
         }
 
+        // 自动播放
         autoClick();
         setCanvasSize();
         window.addEventListener('resize', setCanvasSize, false);
