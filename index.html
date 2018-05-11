@@ -1,10 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Hello world</title>
+    <meta charset="UTF-8">
+    <title>(`・ω・´)</title>
+    <script src="anime.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./iconfont.css">
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    h1 {
+    	font-size: 50px;
+        color: white;
+        position: fixed;
+        margin: 50px auto;
+        left: 0;
+        right: 0;
+        width: 700px;
+    }
+
+    .iconfont {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        color: white;
+        font-size: 60px;
+    }
+
+    .volume {
+        height: 40px;
+    }
+
+    h2 {
+        margin: auto;
+        color: white;
+        font-size: 70px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 600px;
+        height: 100px;
+        text-shadow: 10px 5px 2px #5177cc;
+    }
+    </style>
 </head>
+
 <body>
-	<h1>hello</h1>
+    <div class="volume">
+        <i class="iconfont icon-volumeup"></i>
+    </div>
+    <img src="main.gif" alt="">
+    <audio autoplay="autoplay" loop="loop" id="bg-music">
+        <source src="bg.mp3">
+    </audio>
+    <h1>ヽ(ｏ`皿′ｏ)ﾉ</h1>
+    <h2>Happy Birthday!</h2>
+    <canvas class="fireworks"></canvas>
+    <script>
+    // 选择器
+    var $ = function(node) {
+        return document.querySelector(node)
+    }
+    // 计数器
+    var counter = 0
+    $(".fireworks").style.display = 'none'
+    $("h2").style.display = 'none'
+
+    // 绑定点击
+    $("h1").onclick = function() {
+        counter++
+        step(counter)
+    }
+
+    $('.iconfont').onclick = function() {
+        var audio = $('#bg-music')
+        if (audio !== null) {
+            if (audio.paused) {
+                $('.iconfont').className = "iconfont icon-volumeup"
+                audio.play(); // 播放  
+            } else {
+                $('.iconfont').className = "iconfont icon-volumeoff"
+                audio.pause(); // 暂停
+            }
+        }
+    }
+
+    function step(counter) {
+        switch (counter) {
+            case 1:
+                anime({
+                    targets: 'h1',
+                    translateX: 220,
+                    translateY: 100,
+                    duration: 2000
+                });
+                $("h1").innerHTML = '(๑¯◡¯๑)恭喜你发现彩蛋啦！'
+                break;
+            case 2:
+                anime({
+                    targets: 'h1',
+                    translateX: 190,
+                    translateY: 60,
+                    duration: 2000
+                });
+                $("h1").innerHTML = '(〃ω〃)不许摸我！'
+                break;
+            case 3:
+                anime({
+                    targets: 'h1',
+                    translateX: 0,
+                    translateY: 0,
+                    duration: 2000
+                });
+                $("h1").innerHTML = '(=￣ω￣=)好啦好啦给你看就是啦~'
+                setTimeout(function() {
+                    $("h1").style.display = 'none'
+                    $("img").style.display = 'none'
+                    $(".fireworks").style.display = 'block'
+                    $("h2").style.display = 'block'
+                    anime({
+                        targets: [$(".fireworks"), $("h2")],
+                        opacity: [
+                            { value: [0, 1], duration: 2000, easing: 'easeOutQuad' }
+                        ],
+                    });
+                   
+                }, 3000)
+                break;
+            default:
+
+        }
+        window.human = false;
+
+        var canvasEl = document.querySelector('.fireworks');
+        var ctx = canvasEl.getContext('2d');
+        var numberOfParticules = 30;
+        var pointerX = 0;
+        var pointerY = 0;
+        var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+        var colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
+
+        function setCanvasSize() {
+            canvasEl.width = window.innerWidth * 2;
+            canvasEl.height = window.innerHeight * 2;
+            canvasEl.style.width = document.body.clientWidth + 'px';
+            canvasEl.style.height = window.innerHeight + 'px';
+            canvasEl.getContext('2d').scale(2, 2);
+        }
+
+        function updateCoords(e) {
+            pointerX = e.clientX || e.touches[0].clientX;
+            pointerY = e.clientY || e.touches[0].clientY;
+        }
+
+        function setParticuleDirection(p) {
+            var angle = anime.random(0, 360) * Math.PI / 180;
+            var value = anime.random(50, 180);
+            var radius = [-1, 1][anime.random(0, 1)] * value;
+            return {
+                x: p.x + radius * Math.cos(angle),
+                y: p.y + radius * Math.sin(angle)
+            }
+        }
+
+        function createParticule(x, y) {
+            var p = {};
+            p.x = x;
+            p.y = y;
+            p.color = colors[anime.random(0, colors.length - 1)];
+            p.radius = anime.random(16, 32);
+            p.endPos = setParticuleDirection(p);
+            p.draw = function() {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            }
+            return p;
+        }
+
+        function createCircle(x, y) {
+            var p = {};
+            p.x = x;
+            p.y = y;
+            p.color = '#FFF';
+            p.radius = 0.1;
+            p.alpha = .5;
+            p.lineWidth = 6;
+            p.draw = function() {
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+                ctx.lineWidth = p.lineWidth;
+                ctx.strokeStyle = p.color;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+            return p;
+        }
+
+        function renderParticule(anim) {
+            for (var i = 0; i < anim.animatables.length; i++) {
+                anim.animatables[i].target.draw();
+            }
+        }
+
+        function animateParticules(x, y) {
+            var circle = createCircle(x, y);
+            var particules = [];
+            for (var i = 0; i < numberOfParticules; i++) {
+                particules.push(createParticule(x, y));
+            }
+            anime.timeline().add({
+                    targets: particules,
+                    x: function(p) { return p.endPos.x; },
+                    y: function(p) { return p.endPos.y; },
+                    radius: 0.1,
+                    duration: anime.random(1200, 1800),
+                    easing: 'easeOutExpo',
+                    update: renderParticule
+                })
+                .add({
+                    targets: circle,
+                    radius: anime.random(80, 160),
+                    lineWidth: 0,
+                    alpha: {
+                        value: 0,
+                        easing: 'linear',
+                        duration: anime.random(600, 800),
+                    },
+                    duration: anime.random(1200, 1800),
+                    easing: 'easeOutExpo',
+                    update: renderParticule,
+                    offset: 0
+                });
+        }
+
+        var render = anime({
+            duration: Infinity,
+            update: function() {
+                ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+            }
+        });
+
+        $(".fireworks").addEventListener(tap, function(e) {
+            window.human = true;
+            render.play();
+            updateCoords(e);
+            animateParticules(pointerX, pointerY);
+        }, false);
+
+        var centerX = window.innerWidth / 2;
+        var centerY = window.innerHeight / 2;
+
+        function autoClick() {
+            if (window.human) return;
+            animateParticules(
+                anime.random(centerX - 50, centerX + 50),
+                anime.random(centerY - 50, centerY + 50)
+            );
+            anime({ duration: 200 }).finished.then(autoClick);
+        }
+
+        autoClick();
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize, false);
+    }
+    </script>
 </body>
+
 </html>
