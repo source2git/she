@@ -159,7 +159,7 @@
             canvasEl.width = window.innerWidth * 2;
             canvasEl.height = window.innerHeight * 2;
             canvasEl.style.width = document.body.clientWidth + 'px';
-            canvasEl.style.height = window.innerHeight + 'px';
+            canvasEl.style.height = (window.innerHeight - 40) + 'px';
             canvasEl.getContext('2d').scale(2, 2);
         }
 
