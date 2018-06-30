@@ -40,22 +40,18 @@
         height: 40px;
     }
 
-    .word {
+    h2 {
         margin: auto;
         color: white;
+        font-size: 70px;
         position: fixed;
         top: 0;
         left: 0;
         bottom: 0;
         right: 0;
-        width: 500px;
+        width: 600px;
         height: 100px;
         text-shadow: 10px 5px 2px #5177cc;
-    }
-    .word h2 {
-        font-size: 60px;
-        margin: 0;
-        text-align: center;
     }
     </style>
 </head>
@@ -64,28 +60,22 @@
     <div class="volume">
         <i class="iconfont icon-volumeup"></i>
     </div>
-    <img src="http://l.wigflip.com/z2FsUJ4t/thankyoumario.gif" alt="">
+    <img src="./assets/main.gif" alt="">
     <audio autoplay="autoplay" loop="loop" id="bg-music">
         <source src="./assets/bg.mp3">
     </audio>
     <h1>ヽ(ｏ`皿′ｏ)ﾉ</h1>
-    <div class="word">
-    	<h2>陈新月小朋友</h2>
-    	<h2>Happy Birthday!</h2>
-    </div>
+    <h2>Happy Birthday!</h2>
     <canvas class="fireworks"></canvas>
     <script>
     // 选择器
     var $ = function(node) {
         return document.querySelector(node)
     }
-    var $$ = function(node) {
-        return document.querySelectorAll(node)
-    }
     // 计数器
     var counter = 0
     $(".fireworks").style.display = 'none'
-    $(".word").style.display = 'none'
+    $("h2").style.display = 'none'
     $('#bg-music').volume = 0.6
 
     // 绑定点击
@@ -140,9 +130,9 @@
                     $("h1").style.display = 'none'
                     $("img").style.display = 'none'
                     $(".fireworks").style.display = 'block'
-                    $(".word").style.display = 'block'
+                    $("h2").style.display = 'block'
                     anime({
-                        targets: [$(".fireworks"), $(".word")],
+                        targets: [$(".fireworks"), $("h2")],
                         opacity: [
                             { value: [0, 1], duration: 2000, easing: 'easeOutQuad' }
                         ],
